@@ -2,10 +2,11 @@
   "name": "netgrowth",
   "version": "1.0.0",
   "description": "A full-stack web application that is used to create timed schedules for maintaining large professional network.",
-  "main": "index.js",
+  "main": "backend/index.js",
   "scripts": {
-    "dev": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npx nodemon backend/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,8 @@
   "homepage": "https://github.com/SherikTZ/NetGrowth#readme",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
   }
 }
