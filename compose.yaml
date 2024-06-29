@@ -9,8 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./backend:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./backend:/usr/src/netgrowth/backend
     depends_on:
       - netgrowth-mongo
 
@@ -31,7 +30,17 @@ services:
       - "8080:8080"
     volumes:
       - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules
+
+  netgrowth-backend-test:
+    container_name: netgrowth-backend-test
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - netgrowth-mongo
+    volumes:
+      - ./backend:/usr/src/netgrowth/backend
+    command: ["npm", "test"]
 
 volumes:
   netgrowth-mongodata:
