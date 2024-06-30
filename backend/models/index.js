@@ -1,7 +1,5 @@
-const mongoose = require("mongoose");
+import user from "./user.js";
+import connection from "./connection.js";
+import fact from "./fact.js";
 
-const user = require("./user");
-const connection = require("./connection");
-const fact = require("./fact");
-
-module.exports = { user, connection, fact };
+export { user, connection, fact };

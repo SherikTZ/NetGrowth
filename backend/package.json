@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "netgrowth",
   "version": "1.0.0",
   "description": "A full-stack web application that is used to create timed schedules for maintaining large professional network.",

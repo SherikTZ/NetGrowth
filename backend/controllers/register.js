@@ -1,6 +1,6 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+import bcrypt from "bcryptjs";
+import User from "../models/user.js";
+import generateJWT from "../utils/generateJWT.js";
 
 // POST /register
 
@@ -12,7 +12,7 @@ const register = async (req, res) => {
     const existingUsername = await User.findOne({ username });
 
     if (existingEmail || existingUsername) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(409).json({ message: "User already exists" });
     }
 
     const SALT_LENGTH = 10;
@@ -26,10 +26,22 @@ const register = async (req, res) => {
     });
 
     await user.save();
-    res.status(201).json({ message: "User registered successfully" });
+
+    const token = generateJWT(user);
+
+    const MAX_AGE = 1000 * 60 * 60 * 24 * 7; // 7 days
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: MAX_AGE,
+    });
+
+    return res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    return res.status(500).json({ message: "Server error" });
   }
 };
 
-exports.register = register;
+export default { register };

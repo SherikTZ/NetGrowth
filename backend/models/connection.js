@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const connectionSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -21,4 +21,4 @@ const connectionSchema = new mongoose.Schema({
   contactDates: { type: [Date] },
 });
 
-module.exports = mongoose.model("Connection", connectionSchema);
+export default mongoose.model("Connection", connectionSchema);

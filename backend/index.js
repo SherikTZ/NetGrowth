@@ -1,17 +1,21 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-const app = express();
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const mainRouter = require("./routes/main");
-const userRouter = require("./routes/register");
+import mainRouter from "./routes/main.js";
+import registerRouter from "./routes/register.js";
+import loginRouter from "./routes/login.js";
+
+import { user, connection, fact } from "./models/index.js";
+
+const app = express();
 
 app.use(express.json());
 app.use("/", mainRouter);
-app.use("/", userRouter);
-dotenv.config();
+app.use("/", registerRouter);
+app.use("/", loginRouter);
 
-const { user, connection, fact } = require("./models/index");
+dotenv.config();
 
 const dbURI =
   process.env.NODE_ENV === "test"
@@ -36,4 +40,4 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-module.exports = app;
+export default app;

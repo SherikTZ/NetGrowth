@@ -1,85 +1,66 @@
-const request = require("supertest");
-const mongoose = require("mongoose");
-const app = require("../../index");
-const User = require("../../models/user");
-const chai = require("chai");
-const dotenv = require("dotenv");
+import request from "supertest";
+import app from "../../index.js";
+import User from "../../models/user.js";
+import { expect } from "chai";
 
-dotenv.config("../../.env");
+beforeEach(async () => {
+  await User.deleteMany({});
+});
 
-afterEach((done) => {
-  User.deleteMany({})
-    .then(() => done())
-    .catch((err) => done(err));
+afterEach(async () => {
+  await User.deleteMany({});
 });
 
 describe("POST /register", () => {
-  it("should register a new user", (done) => {
+  it("should register a new user", async () => {
     const newUser = {
       username: "test",
       email: "test@example.com",
       password: "password123",
     };
 
-    request(app)
-      .post("/register")
-      .send(newUser)
-      .expect(201)
-      .end((err, res) => {
-        if (err) return done(err);
-        chai.expect(res.body.message).to.equal("User registered successfully");
-        done();
-      });
+    const res = await request(app).post("/register").send(newUser).expect(201);
+
+    expect(res.body.message).to.equal("User registered successfully");
   });
 
-  it("should not register a user with an existing email", (done) => {
+  it("should not register a user with an existing email", async () => {
     const existingUser = new User({
       username: "test",
       email: "test@example.com",
+      passwordHash: "password123",
+    });
+
+    await existingUser.save();
+
+    const newUser = {
+      username: "test2",
+      email: "test@example.com",
       password: "password123",
-    });
+    };
 
-    existingUser.save().then(() => {
-      const newUser = {
-        username: "test2",
-        email: "test@example.com",
-        password: "password123",
-      };
+    const res = await request(app).post("/register").send(newUser).expect(409);
 
-      request(app)
-        .post("/register")
-        .send(newUser)
-        .expect(400)
-        .end((err, res) => {
-          if (err) return done(err);
-          chai.expect(res.body.message).to.equal("User already exists");
-          done();
-        });
-    });
+    expect(res.body.message).to.equal("User already exists");
   });
-  it("should not register a user with an existing username", (done) => {
+
+  it("should not register a user with an existing username", async () => {
     const existingUser = new User({
       username: "test",
       email: "test@example.com",
+      passwordHash: "password123",
+    });
+
+    await existingUser.save();
+
+    const newUser = {
+      username: "test",
+      email: "test2@example.com",
       password: "password123",
-    });
+    };
 
-    existingUser.save().then(() => {
-      const newUser = {
-        username: "test",
-        email: "test2@example.com",
-        password: "password123",
-      };
+    const res = await request(app).post("/register").send(newUser).expect(409);
 
-      request(app)
-        .post("/register")
-        .send(newUser)
-        .expect(400)
-        .end((err, res) => {
-          if (err) return done(err);
-          chai.expect(res.body.message).to.equal("User already exists");
-          done();
-        });
-    });
+    expect(res.body.message).to.equal("User already exists");
   });
 });
