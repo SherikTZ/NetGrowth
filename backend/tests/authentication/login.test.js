@@ -18,7 +18,7 @@ describe("POST /login", () => {
   it("should login existing user", async () => {
     const PASSWORD_SALT = 10;
 
-    const passwordHash = await bcrypt.hash("password123", PASSWORD_SALT);
+    const passwordHash = await bcrypt.hash("TestPassword1!", PASSWORD_SALT);
 
     const newUser = new User({
       username: "test",
@@ -30,7 +30,7 @@ describe("POST /login", () => {
 
     const user = {
       email: "test@example.com",
-      password: "password123",
+      password: "TestPassword1!",
     };
 
     const res = await request(app).post("/login").send(user).expect(200);
@@ -41,7 +41,7 @@ describe("POST /login", () => {
   it("should not login with an invalid email", async () => {
     const PASSWORD_SALT = 10;
 
-    const passwordHash = await bcrypt.hash("password123", PASSWORD_SALT);
+    const passwordHash = await bcrypt.hash("TestPassword1!", PASSWORD_SALT);
 
     const newUser = new User({
       username: "test",
@@ -53,7 +53,7 @@ describe("POST /login", () => {
 
     const user = {
       email: "invalid@example.com",
-      password: "password123",
+      password: "TestPassword1!",
     };
 
     const res = await request(app).post("/login").send(user).expect(401);
@@ -64,7 +64,7 @@ describe("POST /login", () => {
   it("should not login with an invalid password", async () => {
     const PASSWORD_SALT = 10;
 
-    const passwordHash = await bcrypt.hash("password123", PASSWORD_SALT);
+    const passwordHash = await bcrypt.hash("TestPassword1!", PASSWORD_SALT);
 
     const newUser = new User({
       username: "test",
@@ -76,7 +76,7 @@ describe("POST /login", () => {
 
     const user = {
       email: "test@example.com",
-      password: "wrongpassword",
+      password: "WrongPassword1!",
     };
 
     const res = await request(app).post("/login").send(user).expect(401);

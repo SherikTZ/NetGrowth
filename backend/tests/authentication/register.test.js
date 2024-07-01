@@ -16,7 +16,7 @@ describe("POST /register", () => {
     const newUser = {
       username: "test",
       email: "test@example.com",
-      password: "password123",
+      password: "TestPassword1!",
     };
 
     const res = await request(app).post("/register").send(newUser).expect(201);
@@ -28,7 +28,7 @@ describe("POST /register", () => {
     const existingUser = new User({
       username: "test",
       email: "test@example.com",
-      passwordHash: "password123",
+      passwordHash: "TestPassword1!",
     });
 
     await existingUser.save();
@@ -36,7 +36,7 @@ describe("POST /register", () => {
     const newUser = {
       username: "test2",
       email: "test@example.com",
-      password: "password123",
+      password: "TestPassword1!",
     };
 
     const res = await request(app).post("/register").send(newUser).expect(409);
@@ -48,7 +48,7 @@ describe("POST /register", () => {
     const existingUser = new User({
       username: "test",
       email: "test@example.com",
-      passwordHash: "password123",
+      passwordHash: "TestPassword1!",
     });
 
     await existingUser.save();
@@ -56,7 +56,7 @@ describe("POST /register", () => {
     const newUser = {
       username: "test",
       email: "test2@example.com",
-      password: "password123",
+      password: "TestPassword1!",
     };
 
     const res = await request(app).post("/register").send(newUser).expect(409);
