@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
   connections: [{ type: mongoose.Schema.Types.ObjectId, ref: "Connection" }],
   facts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Fact" }],
   connectionsFacts: [

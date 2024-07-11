@@ -14,7 +14,7 @@ afterEach(async () => {
   await User.deleteMany({});
 });
 
-describe("POST /login", () => {
+describe("POST /api/login", () => {
   it("should login existing user", async () => {
     const PASSWORD_SALT = 10;
 
@@ -33,7 +33,7 @@ describe("POST /login", () => {
       password: "TestPassword1!",
     };
 
-    const res = await request(app).post("/login").send(user).expect(200);
+    const res = await request(app).post("/api/login").send(user).expect(200);
 
     expect(res.body.message).to.equal("User logged in");
   });
@@ -56,7 +56,7 @@ describe("POST /login", () => {
       password: "TestPassword1!",
     };
 
-    const res = await request(app).post("/login").send(user).expect(401);
+    const res = await request(app).post("/api/login").send(user).expect(401);
 
     expect(res.body.message).to.equal("User not found");
   });
@@ -79,7 +79,7 @@ describe("POST /login", () => {
       password: "WrongPassword1!",
     };
 
-    const res = await request(app).post("/login").send(user).expect(401);
+    const res = await request(app).post("/api/login").send(user).expect(401);
 
     expect(res.body.message).to.equal("Invalid password");
   });

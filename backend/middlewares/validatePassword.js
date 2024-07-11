@@ -1,5 +1,3 @@
-// validatePassword.js
-
 const validatePassword = (req, res, next) => {
   const password = req.body.password;
 

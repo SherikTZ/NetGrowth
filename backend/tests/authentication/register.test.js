@@ -11,23 +11,28 @@ afterEach(async () => {
   await User.deleteMany({});
 });
 
-describe("POST /register", () => {
+describe("POST /api/register", () => {
   it("should register a new user", async () => {
     const newUser = {
       username: "test",
-      email: "test@example.com",
+      email: "netgrowth@tjpro.net",
       password: "TestPassword1!",
     };
 
-    const res = await request(app).post("/register").send(newUser).expect(201);
+    const res = await request(app)
+      .post("/api/register")
+      .send(newUser)
+      .expect(201);
 
-    expect(res.body.message).to.equal("User registered successfully");
+    expect(res.body.message).to.equal(
+      "User registered successfully. Verification email sent."
+    );
   });
 
   it("should not register a user with an existing email", async () => {
     const existingUser = new User({
       username: "test",
-      email: "test@example.com",
+      email: "netgrowth@gtjpro.net",
       passwordHash: "TestPassword1!",
     });
 
@@ -35,11 +40,14 @@ describe("POST /register", () => {
 
     const newUser = {
       username: "test2",
-      email: "test@example.com",
+      email: "netgrowth@gtjpro.net",
       password: "TestPassword1!",
     };
 
-    const res = await request(app).post("/register").send(newUser).expect(409);
+    const res = await request(app)
+      .post("/api/register")
+      .send(newUser)
+      .expect(409);
 
     expect(res.body.message).to.equal("User already exists");
   });
@@ -47,7 +55,7 @@ describe("POST /register", () => {
   it("should not register a user with an existing username", async () => {
     const existingUser = new User({
       username: "test",
-      email: "test@example.com",
+      email: "netgrowth@gtjpro.net",
       passwordHash: "TestPassword1!",
     });
 
@@ -55,11 +63,14 @@ describe("POST /register", () => {
 
     const newUser = {
       username: "test",
-      email: "test2@example.com",
+      email: "netgrowth@gtjpro.net",
       password: "TestPassword1!",
     };
 
-    const res = await request(app).post("/register").send(newUser).expect(409);
+    const res = await request(app)
+      .post("/api/register")
+      .send(newUser)
+      .expect(409);
 
     expect(res.body.message).to.equal("User already exists");
   });

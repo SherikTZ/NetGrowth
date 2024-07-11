@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 import generateJWT from "../utils/generateJWT.js";
+import sendEmail from "../utils/sendEmail.js";
 
 // POST /register
 
@@ -38,9 +39,20 @@ const register = async (req, res) => {
       maxAge: MAX_AGE,
     });
 
-    return res.status(201).json({ message: "User registered successfully" });
+    const verificationLink = `${process.env.BASE_URL}/verify/${token}`;
+
+    const emailText = `Click on the link to verify your email: ${verificationLink}`;
+
+    await sendEmail(email, "Email Verification", emailText);
+
+    return res.status(201).json({
+      message: "User registered successfully. Verification email sent.",
+    });
   } catch (error) {
-    return res.status(500).json({ message: "Server error" });
+    console.error("Registration error:", error); // Improved logging
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
   }
 };
 

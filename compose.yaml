@@ -12,6 +12,10 @@ services:
       - ./backend:/usr/src/netgrowth/backend
     depends_on:
       - netgrowth-mongo
+    env_file:
+      - ./backend/.env
+    networks:
+      - netgrowth-network
 
   netgrowth-mongo:
     container_name: netgrowth-mongo
@@ -20,6 +24,8 @@ services:
       - "27017:27017"
     volumes:
       - netgrowth-mongodata:/data/db
+    networks:
+      - netgrowth-network
 
   netgrowth-frontend:
     container_name: netgrowth-frontend
@@ -30,6 +36,8 @@ services:
       - "8080:8080"
     volumes:
       - ./frontend:/usr/src/app
+    networks:
+      - netgrowth-network
 
   netgrowth-backend-test:
     container_name: netgrowth-backend-test
@@ -41,6 +49,13 @@ services:
     volumes:
       - ./backend:/usr/src/netgrowth/backend
     command: ["npm", "test"]
+    env_file:
+      - ./backend/.env
+    networks:
+      - netgrowth-network
 
 volumes:
   netgrowth-mongodata:
+networks:
+  netgrowth-network:
+    driver: bridge

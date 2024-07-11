@@ -1,12 +1,4 @@
-import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-dotenv.config({ path: resolve(__dirname, "../.env") });
 
 const JWT_SECRET = process.env.JWT_SECRET;
 

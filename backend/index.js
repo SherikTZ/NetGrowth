@@ -1,21 +1,28 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 
-import mainRouter from "./routes/main.js";
+dotenv.config();
+
 import registerRouter from "./routes/register.js";
 import loginRouter from "./routes/login.js";
+import verifyRouter from "./routes/verify.js";
 
 import { user, connection, fact } from "./models/index.js";
 
 const app = express();
 
 app.use(express.json());
-app.use("/", mainRouter);
 app.use("/", registerRouter);
 app.use("/", loginRouter);
+app.use("/", verifyRouter);
 
-dotenv.config();
+app.use(
+  cors({
+    origin: process.env.FRONTEND_BASE_URL,
+  })
+);
 
 const dbURI =
   process.env.NODE_ENV === "test"
@@ -36,7 +43,7 @@ mongoose
 
 const PORT = process.env.EXPRESS_PORT;
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
 
