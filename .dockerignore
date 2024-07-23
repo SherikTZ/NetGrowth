@@ -21,6 +21,7 @@
 **/*.jfm
 **/charts
 **/docker-compose*
+**/package-lock.json
 **/compose*
 **/Dockerfile*
 **/node_modules

@@ -2,27 +2,33 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 import registerRouter from "./routes/register.js";
 import loginRouter from "./routes/login.js";
 import verifyRouter from "./routes/verify.js";
-
-import { user, connection, fact } from "./models/index.js";
+import checkAuthRouter from "./routes/checkAuth.js";
+import testRoutesRouter from "./routes/testRoutes.js";
 
 const app = express();
-
-app.use(express.json());
-app.use("/", registerRouter);
-app.use("/", loginRouter);
-app.use("/", verifyRouter);
 
 app.use(
   cors({
     origin: process.env.FRONTEND_BASE_URL,
+    credentials: true,
   })
 );
+
+app.use(cookieParser());
+app.use(express.json());
+
+app.use("/", registerRouter);
+app.use("/", loginRouter);
+app.use("/", verifyRouter);
+app.use("/", checkAuthRouter);
+app.use("/", testRoutesRouter);
 
 const dbURI =
   process.env.NODE_ENV === "test"
