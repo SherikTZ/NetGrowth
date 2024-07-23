@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
+
 export default function Signup() {
   const [formData, setFormData] = useState({
     username: "",
@@ -21,7 +23,7 @@ export default function Signup() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/register",
+        `${VITE_BACKEND_API_URL}/register`,
         formData,
         {
           withCredentials: true,

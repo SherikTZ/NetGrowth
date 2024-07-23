@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
+
 export default function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
@@ -12,7 +14,7 @@ export default function useAuth() {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/checkAuth", {
+      const response = await axios.get(`${VITE_BACKEND_API_URL}/checkAuth`, {
         withCredentials: true,
       });
       setIsLoggedIn(response.data.isAuthenticated);
