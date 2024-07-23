@@ -1,9 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+import { useContext } from "react";
+import AuthContext from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 export default function Signup() {
+  const { isLoggedIn, user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      navigate(`/profile/${user.username}`);
+    }
+  }, [isLoggedIn, user, navigate]);
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",

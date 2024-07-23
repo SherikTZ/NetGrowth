@@ -6,6 +6,11 @@ import Home from "./pages/main/Home";
 import Login from "./pages/login/Login";
 
 import Signup from "./pages/signup/Signup";
+import Verify from "./pages/signup/Verify";
+
+import Logout from "../src/pages/logout/Logout";
+
+import Profile from "./pages/profile/Profile";
 
 function App() {
   return (
@@ -19,6 +24,13 @@ function App() {
 
         {/*Sign up routes */}
         <Route path="/signup" element={<Signup />} />
+        <Route path="/verify/:token" element={<Verify />} />
+
+        {/*Logout routes*/}
+        <Route path="/logout" element={<Logout />} />
+
+        {/*Private routes*/}
+        <Route path="/profile:username" element={<Profile />} />
       </Routes>
     </Router>
   );
