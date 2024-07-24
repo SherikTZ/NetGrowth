@@ -13,6 +13,7 @@ import checkAuthRouter from "./routes/checkAuth.js";
 import testRoutesRouter from "./routes/testRoutes.js";
 import logoutRouter from "./routes/logout.js";
 import connectionRouter from "./routes/connections.js";
+import factRouter from "./routes/facts.js";
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use("/", checkAuthRouter);
 app.use("/", testRoutesRouter);
 app.use("/", logoutRouter);
 app.use("/", connectionRouter);
+app.use("/", factRouter);
 
 const dbURI =
   process.env.NODE_ENV === "test"
