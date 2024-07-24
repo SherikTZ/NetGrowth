@@ -10,7 +10,6 @@ services:
       - "3000:3000"
     volumes:
       - ./backend:/usr/src/netgrowth/backend
-      - /usr/src/netgrowth/backend/node_modules
     depends_on:
       - netgrowth-mongo
     env_file:
@@ -37,7 +36,6 @@ services:
       - "8080:8080"
     volumes:
       - ./frontend:/usr/src/netgrowth/frontend
-      - /usr/src/netgrowth/frontend/node_modules
     networks:
       - netgrowth-network
 

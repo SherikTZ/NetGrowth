@@ -19,6 +19,7 @@ const checkAuth = async (req, res) => {
     const response = {
       isAuthenticated: true,
       user: {
+        id: user._id,
         username: user.username,
         email: user.email,
       },

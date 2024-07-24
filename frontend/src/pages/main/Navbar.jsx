@@ -1,27 +1,70 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
+
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 import AuthContext from "../../contexts/AuthContext";
 
 export default function Navbar() {
   const { isLoggedIn, user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
   return (
-    <div className="home">
-      <nav>
-        {isLoggedIn ? (
-          <>
-            <Link to="/profile">Profile ({user.username})</Link>
-            <Link to="/logout">Log Out</Link>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Log In</Link>
-            <Link to="/signup">Sign Up</Link>
-          </>
-        )}
-      </nav>
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar sx={{ height: "5vh" }} position="static">
+        <nav>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+            }}
+          >
+            {isLoggedIn ? (
+              <>
+                <Button
+                  variant="text"
+                  color="inherit"
+                  onClick={() => handleNavigation(`/profile/${user.username}`)}
+                >
+                  {user.username}
+                </Button>
+                <Button
+                  variant="text"
+                  color="inherit"
+                  onClick={() => handleNavigation("/logout")}
+                >
+                  Log Out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  color="inherit"
+                  variant="text"
+                  onClick={() => handleNavigation("/login")}
+                >
+                  Log In
+                </Button>
+                <Button
+                  color="inherit"
+                  variant="contained"
+                  onClick={() => handleNavigation("/signup")}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+          </Box>
+        </nav>
+      </AppBar>
+    </Box>
   );
 }
