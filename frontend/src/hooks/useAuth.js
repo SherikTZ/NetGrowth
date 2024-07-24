@@ -17,12 +17,18 @@ export default function useAuth() {
       const response = await axios.get(`${VITE_BACKEND_API_URL}/checkAuth`, {
         withCredentials: true,
       });
-      setIsLoggedIn(response.data.isAuthenticated);
+
+      setIsLoggedIn(true);
       setUser(response.data.user);
     } catch (error) {
-      console.error("Auth check failed:", error);
       setIsLoggedIn(false);
       setUser(null);
+
+      if (error.response && error.response.status === 401) {
+        console.log("User is not authenticated");
+      } else {
+        console.error("Auth check failed:", error);
+      }
     } finally {
       setLoading(false);
     }

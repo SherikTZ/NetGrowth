@@ -17,6 +17,7 @@ describe("POST /api/register", () => {
       username: "test",
       email: "netgrowth@tjpro.net",
       password: "TestPassword1!",
+      authProvider: "local",
     };
 
     const res = await request(app)
@@ -34,6 +35,7 @@ describe("POST /api/register", () => {
       username: "test",
       email: "netgrowth@gtjpro.net",
       passwordHash: "TestPassword1!",
+      authProvider: "local",
     });
 
     await existingUser.save();
@@ -42,6 +44,7 @@ describe("POST /api/register", () => {
       username: "test2",
       email: "netgrowth@gtjpro.net",
       password: "TestPassword1!",
+      authProvider: "local",
     };
 
     const res = await request(app)
@@ -57,6 +60,7 @@ describe("POST /api/register", () => {
       username: "test",
       email: "netgrowth@gtjpro.net",
       passwordHash: "TestPassword1!",
+      authProvider: "local",
     });
 
     await existingUser.save();
@@ -65,6 +69,7 @@ describe("POST /api/register", () => {
       username: "test",
       email: "netgrowth@gtjpro.net",
       password: "TestPassword1!",
+      authProvider: "local",
     };
 
     const res = await request(app)

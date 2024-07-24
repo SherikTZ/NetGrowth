@@ -13,7 +13,15 @@ const userSchema = new mongoose.Schema({
   },
   passwordHash: {
     type: String,
+    required: function () {
+      return this.authProvider === "local";
+    },
+  },
+  authProvider: {
+    type: String,
+    enum: ["local", "github", "google", "linkedin"],
     required: true,
+    default: "local",
   },
   isVerified: {
     type: Boolean,
@@ -25,6 +33,7 @@ const userSchema = new mongoose.Schema({
     {
       connection: { type: mongoose.Schema.Types.ObjectId, ref: "Connection" },
       fact: { type: mongoose.Schema.Types.ObjectId, ref: "Fact" },
+      isFullfilled: { type: Boolean, default: false },
     },
   ],
 });

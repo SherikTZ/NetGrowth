@@ -24,6 +24,7 @@ const register = async (req, res) => {
       username,
       email,
       passwordHash: hashedPassword,
+      authProvider: "local",
     });
 
     await user.save();
@@ -39,7 +40,7 @@ const register = async (req, res) => {
       maxAge: MAX_AGE,
     });
 
-    const verificationLink = `${process.env.BASE_URL}/verify/${token}`;
+    const verificationLink = `${process.env.FRONTEND_BASE_URL}/verify/${token}`;
 
     const emailText = `Click on the link to verify your email: ${verificationLink}`;
 

@@ -9,7 +9,8 @@ import { useEffect } from "react";
 const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 export default function Signup() {
-  const { isLoggedIn, user, loading } = useContext(AuthContext);
+  const { isLoggedIn, user, loading, checkAuthStatus } =
+    useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function Signup() {
         }
       );
 
+      checkAuthStatus();
       console.log("Success:", response.data);
     } catch (error) {
       console.error("Error:", error);

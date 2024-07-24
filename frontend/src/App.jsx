@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/main/Home";
 
 import Login from "./pages/login/Login";
+import Github from "./pages/login/Github";
 
 import Signup from "./pages/signup/Signup";
 import Verify from "./pages/signup/Verify";
@@ -21,6 +22,7 @@ function App() {
 
         {/* login routes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/oauth/github/callback" element={<Github />} />
 
         {/*Sign up routes */}
         <Route path="/signup" element={<Signup />} />

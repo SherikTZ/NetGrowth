@@ -24,6 +24,7 @@ describe("POST /api/login", () => {
       username: "test",
       email: "test@example.com",
       passwordHash: passwordHash,
+      authProvider: "local",
     });
 
     await newUser.save();
@@ -47,6 +48,7 @@ describe("POST /api/login", () => {
       username: "test",
       email: "test@example.com",
       passwordHash: passwordHash,
+      authProvider: "local",
     });
 
     await newUser.save();
@@ -70,6 +72,7 @@ describe("POST /api/login", () => {
       username: "test",
       email: "test@example.com",
       passwordHash: passwordHash,
+      authProvider: "local",
     });
 
     await newUser.save();

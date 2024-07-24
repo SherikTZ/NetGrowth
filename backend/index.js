@@ -14,6 +14,8 @@ import testRoutesRouter from "./routes/testRoutes.js";
 import logoutRouter from "./routes/logout.js";
 import connectionRouter from "./routes/connections.js";
 import factRouter from "./routes/facts.js";
+import connectionsFactsRouter from "./routes/connectionsFacts.js";
+import githubRouter from "./routes/github.js";
 
 const app = express();
 
@@ -35,6 +37,8 @@ app.use("/", testRoutesRouter);
 app.use("/", logoutRouter);
 app.use("/", connectionRouter);
 app.use("/", factRouter);
+app.use("/", connectionsFactsRouter);
+app.use("/", githubRouter);
 
 const dbURI =
   process.env.NODE_ENV === "test"

@@ -18,7 +18,13 @@ export default function Facts() {
             withCredentials: true,
           }
         );
-        setRows(response.data.map((item) => ({ ...item, id: item._id })));
+        setRows(
+          response.data.map((item) => ({
+            ...item,
+            id: item._id,
+            date: item.date ? new Date(item.date) : null,
+          }))
+        );
       } catch (error) {
         console.error("Error fetching facts:", error);
       }
@@ -30,7 +36,13 @@ export default function Facts() {
   const columns = [
     { field: "name", headerName: "Name", width: 130 },
     { field: "body", headerName: "Fact Body", width: 300 },
-    { field: "date", headerName: "Date", width: 180, type: "date" },
+    {
+      field: "date",
+      headerName: "Date",
+      width: 180,
+      type: "date",
+      valueGetter: (params) => (params.value ? new Date(params.value) : null),
+    },
   ];
 
   return (
