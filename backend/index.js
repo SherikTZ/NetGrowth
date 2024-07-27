@@ -16,6 +16,7 @@ import connectionRouter from "./routes/connections.js";
 import factRouter from "./routes/facts.js";
 import connectionsFactsRouter from "./routes/connectionsFacts.js";
 import githubRouter from "./routes/github.js";
+import googleRouter from "./routes/google.js";
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/", connectionRouter);
 app.use("/", factRouter);
 app.use("/", connectionsFactsRouter);
 app.use("/", githubRouter);
+app.use("/", googleRouter);
 
 const dbURI =
   process.env.NODE_ENV === "test"

@@ -8,13 +8,11 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import GitHubIcon from "@mui/icons-material/GitHub";
+
+import GithubButton from "../OAuth/GithubButton";
+import GoogleButton from "../OAuth/GoogleButton";
 
 const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
-const VITE_GITHUB_CLIENT_ID = import.meta.env.VITE_GITHUB_CLIENT_ID;
-const VITE_GITHUB_REDIRECT_URI = import.meta.env.VITE_GITHUB_REDIRECT_URI;
-
-const githubAuthUrl = `https://github.com/login/oauth/authorize?client_id=${VITE_GITHUB_CLIENT_ID}&redirect_uri=${VITE_GITHUB_REDIRECT_URI}`;
 
 export default function Login() {
   const { isLoggedIn, user, loading, checkAuthStatus } =
@@ -68,14 +66,8 @@ export default function Login() {
         </Button>
       </Box>
       <Stack direction="row" spacing={2}>
-        <Button
-          href={githubAuthUrl}
-          variant="contained"
-          color="secondary"
-          target="_blank"
-        >
-          <GitHubIcon />
-        </Button>
+        <GithubButton />
+        <GoogleButton />
       </Stack>
     </Box>
   );

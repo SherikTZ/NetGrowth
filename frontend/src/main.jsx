@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+
 import App from "./App.jsx";
+
 import AuthProvider from "./contexts/AuthProvider.jsx";
 
 import "@fontsource/roboto/300.css";

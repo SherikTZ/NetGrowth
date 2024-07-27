@@ -48,7 +48,6 @@ services:
       - netgrowth-mongo
     volumes:
       - ./backend:/usr/src/netgrowth/backend
-      - /usr/src/netgrowth/backend/node_modules
     command: ["npm", "test"]
     env_file:
       - ./backend/.env
