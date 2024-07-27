@@ -2,12 +2,14 @@ import React, { useEffect, useState, useContext } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import AuthContext from "../../contexts/AuthContext";
 import axios from "axios";
+import { Button, Box } from "@mui/material";
 
 const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 export default function Connections() {
   const { user } = useContext(AuthContext);
   const [rows, setRows] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   useEffect(() => {
     const fetchConnections = async () => {
@@ -27,6 +29,24 @@ export default function Connections() {
     fetchConnections();
   }, [user.id]);
 
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `${VITE_BACKEND_API_URL}/connections/${user.id}/delete`,
+        {
+          data: { connectionIds: selectedRows },
+          withCredentials: true,
+        }
+      );
+      setRows((prevRows) =>
+        prevRows.filter((row) => !selectedRows.includes(row.id))
+      );
+      setSelectedRows([]);
+    } catch (error) {
+      console.error("Error deleting connections:", error);
+    }
+  };
+
   const columns = [
     { field: "name", headerName: "Name", width: 130 },
     { field: "type", headerName: "Connection Type", width: 130 },
@@ -34,16 +54,28 @@ export default function Connections() {
   ];
 
   return (
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      initialState={{
-        pagination: {
-          paginationModel: { page: 0, pageSize: 5 },
-        },
-      }}
-      pageSizeOptions={[5, 10, 100]}
-      checkboxSelection
-    />
+    <div style={{ height: 500, width: "100%" }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5, 10, 100]}
+        checkboxSelection
+        onRowSelectionModelChange={(newSelection) => {
+          setSelectedRows(newSelection);
+        }}
+      />
+      {selectedRows.length > 0 && (
+        <Box display="flex" justifyContent="left" mt={2}>
+          <Button variant="contained" color="secondary" onClick={handleDelete}>
+            Delete Selected Connections
+          </Button>
+        </Box>
+      )}
+    </div>
   );
 }
