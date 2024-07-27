@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import AuthContext from "../../contexts/AuthContext";
 import axios from "axios";
 import { Button, Box } from "@mui/material";
+import AddConnectionPopup from "./AddConnectionPopup"; // We'll create this component
 
 const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -10,24 +11,25 @@ export default function Connections() {
   const { user } = useContext(AuthContext);
   const [rows, setRows] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
 
   useEffect(() => {
-    const fetchConnections = async () => {
-      try {
-        const response = await axios.get(
-          `${VITE_BACKEND_API_URL}/connections/${user.id}/get`,
-          {
-            withCredentials: true,
-          }
-        );
-        setRows(response.data.map((item) => ({ ...item, id: item._id })));
-      } catch (error) {
-        console.error("Error fetching connections:", error);
-      }
-    };
-
     fetchConnections();
   }, [user.id]);
+
+  const fetchConnections = async () => {
+    try {
+      const response = await axios.get(
+        `${VITE_BACKEND_API_URL}/connections/${user.id}/get`,
+        {
+          withCredentials: true,
+        }
+      );
+      setRows(response.data.map((item) => ({ ...item, id: item._id })));
+    } catch (error) {
+      console.error("Error fetching connections:", error);
+    }
+  };
 
   const handleDelete = async () => {
     try {
@@ -45,6 +47,14 @@ export default function Connections() {
     } catch (error) {
       console.error("Error deleting connections:", error);
     }
+  };
+
+  const handleAddConnection = (newConnection) => {
+    setRows((prevRows) => [
+      ...prevRows,
+      { ...newConnection, id: newConnection._id },
+    ]);
+    setIsAddPopupOpen(false);
   };
 
   const columns = [
@@ -69,13 +79,26 @@ export default function Connections() {
           setSelectedRows(newSelection);
         }}
       />
-      {selectedRows.length > 0 && (
-        <Box display="flex" justifyContent="left" mt={2}>
+      <Box display="flex" justifyContent="space-between" mt={2}>
+        {selectedRows.length > 0 && (
           <Button variant="contained" color="secondary" onClick={handleDelete}>
             Delete Selected Connections
           </Button>
-        </Box>
-      )}
+        )}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setIsAddPopupOpen(true)}
+        >
+          Add Connection
+        </Button>
+      </Box>
+      <AddConnectionPopup
+        open={isAddPopupOpen}
+        onClose={() => setIsAddPopupOpen(false)}
+        onAdd={handleAddConnection}
+        userId={user.id}
+      />
     </div>
   );
 }

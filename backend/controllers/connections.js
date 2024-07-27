@@ -27,7 +27,8 @@ const getConnections = async (req, res) => {
 };
 
 const addConnection = async (req, res) => {
-  const { name, position, type, userId } = req.body;
+  const { name, position, type } = req.body;
+  const userId = req.params.id;
 
   try {
     const connection = await Connection.create({ name, position, type });
@@ -49,14 +50,16 @@ const addConnection = async (req, res) => {
 };
 
 const deleteConnection = async (req, res) => {
-  const { connectionId } = req.body;
+  const { connectionIds } = req.body;
 
   try {
-    await Connection.deleteOne({ _id: connectionId });
+    for (const connectionId of connectionIds) {
+      await Connection.deleteOne({ _id: connectionId });
+    }
 
-    return res.status(200).json({ message: "Connection deleted" });
+    return res.status(200).json({ message: "Connections deleted" });
   } catch (error) {
-    console.error("Error deleting connection", error);
+    console.error("Error deleting connections", error);
     return res.status(500).json({ message: "Server error" });
   }
 };
