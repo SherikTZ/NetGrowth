@@ -8,6 +8,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { CssBaseline } from "@mui/material";
+import mainTheme from "../../themes/mainTheme";
+import { ThemeProvider } from "@mui/material/styles";
 
 import GithubButton from "../OAuth/GithubButton";
 import GoogleButton from "../OAuth/GoogleButton";
@@ -45,30 +48,33 @@ export default function Login() {
 
   return (
     <Box>
-      <Typography variant="h1">Login</Typography>
-      <Box component="form" onSubmit={handleSubmit}>
-        <TextField
-          label="Email"
-          type="email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          label="Password"
-          type="password"
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button type="submit" variant="contained">
-          Submit
-        </Button>
-      </Box>
-      <Stack direction="row" spacing={2}>
-        <GithubButton />
-        <GoogleButton />
-      </Stack>
+      <ThemeProvider theme={mainTheme}>
+        <CssBaseline />
+        <Typography variant="h1">Login</Typography>
+        <Box component="form" onSubmit={handleSubmit}>
+          <TextField
+            label="Email"
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button type="submit" color="info" variant="contained">
+            Submit
+          </Button>
+        </Box>
+        <Stack direction="row" spacing={2}>
+          <GithubButton />
+          <GoogleButton />
+        </Stack>
+      </ThemeProvider>
     </Box>
   );
 }
