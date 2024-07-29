@@ -49,12 +49,14 @@ const addFact = async (req, res) => {
 };
 
 const deleteFact = async (req, res) => {
-  const { factId } = req.body;
+  const { factIds } = req.body;
 
   try {
-    await Fact.deleteOne({ _id: factId });
+    for (const factId of factIds) {
+      await Fact.deleteOne({ _id: factId });
+    }
 
-    return res.status(200).json({ message: "Fact deleted" });
+    return res.status(200).json({ message: "Facts deleted" });
   } catch (error) {
     console.error("Error deleting fact", error);
     return res.status(500).json({ message: "Server error" });

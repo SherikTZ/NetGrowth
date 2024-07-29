@@ -6,6 +6,7 @@ import Home from "./pages/main/Home";
 import Login from "./pages/login/Login";
 import Github from "./pages/login/Github";
 import Google from "./pages/login/Google";
+import Microsoft from "./pages/login/Microsoft";
 
 import Signup from "./pages/signup/Signup";
 import Verify from "./pages/signup/Verify";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/oauth/github/callback" element={<Github />} />
         <Route path="/oauth/google/callback" element={<Google />} />
+        <Route path="/oauth/microsoft/callback" element={<Microsoft />} />
 
         {/*Sign up routes */}
         <Route path="/signup" element={<Signup />} />

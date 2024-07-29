@@ -3,7 +3,9 @@ import { DataGrid } from "@mui/x-data-grid";
 import AuthContext from "../../contexts/AuthContext";
 import axios from "axios";
 import { Button, Box } from "@mui/material";
-import AddConnectionPopup from "./AddConnectionPopup"; // We'll create this component
+import AddConnectionPopup from "./AddConnectionPopup";
+import { ThemeProvider } from "@mui/material/styles";
+import mainTheme from "../../themes/mainTheme";
 
 const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
@@ -65,40 +67,46 @@ export default function Connections() {
 
   return (
     <div style={{ height: 500, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10, 100]}
-        checkboxSelection
-        onRowSelectionModelChange={(newSelection) => {
-          setSelectedRows(newSelection);
-        }}
-      />
-      <Box display="flex" justifyContent="space-between" mt={2}>
-        {selectedRows.length > 0 && (
-          <Button variant="contained" color="secondary" onClick={handleDelete}>
-            Delete Selected Connections
+      <ThemeProvider theme={mainTheme}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10, 100]}
+          checkboxSelection
+          onRowSelectionModelChange={(newSelection) => {
+            setSelectedRows(newSelection);
+          }}
+        />
+        <Box display="flex" justifyContent="space-between" mt={2}>
+          {selectedRows.length > 0 && (
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleDelete}
+            >
+              Delete Selected Connections
+            </Button>
+          )}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setIsAddPopupOpen(true)}
+          >
+            Add Connection
           </Button>
-        )}
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setIsAddPopupOpen(true)}
-        >
-          Add Connection
-        </Button>
-      </Box>
-      <AddConnectionPopup
-        open={isAddPopupOpen}
-        onClose={() => setIsAddPopupOpen(false)}
-        onAdd={handleAddConnection}
-        userId={user.id}
-      />
+        </Box>
+        <AddConnectionPopup
+          open={isAddPopupOpen}
+          onClose={() => setIsAddPopupOpen(false)}
+          onAdd={handleAddConnection}
+          userId={user.id}
+        />
+      </ThemeProvider>
     </div>
   );
 }

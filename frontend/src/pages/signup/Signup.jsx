@@ -1,29 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-
-import { useContext } from "react";
-import AuthContext from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import AuthContext from "../../contexts/AuthContext";
+
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { CssBaseline } from "@mui/material";
+import mainTheme from "../../themes/mainTheme";
+import { ThemeProvider } from "@mui/material/styles";
+
+import GithubButton from "../OAuth/GithubButton";
+import GoogleButton from "../OAuth/GoogleButton";
+import MicrosoftButton from "../OAuth/MicrosoftButton";
 
 const VITE_BACKEND_API_URL = import.meta.env.VITE_BACKEND_API_URL;
 
 export default function Signup() {
-  const { isLoggedIn, user, loading, checkAuthStatus } =
-    useContext(AuthContext);
+  const { isLoggedIn, user, checkAuthStatus } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
 
   useEffect(() => {
     if (isLoggedIn && user) {
       navigate(`/profile/${user.username}`);
     }
   }, [isLoggedIn, user, navigate]);
-
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,59 +43,57 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await axios.post(
         `${VITE_BACKEND_API_URL}/register`,
         formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { withCredentials: true }
       );
-
-      checkAuthStatus();
-      console.log("Success:", response.data);
+      if (response.status === 200) {
+        await checkAuthStatus();
+      }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Signup error:", error);
     }
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input
+    <Box>
+      <ThemeProvider theme={mainTheme}>
+        <CssBaseline />
+        <Typography variant="h1">Sign Up</Typography>
+        <Box component="form" onSubmit={handleSubmit}>
+          <TextField
+            label="Username"
             type="text"
             name="username"
             value={formData.username}
             onChange={handleChange}
           />
-        </label>
-        <label>
-          Email:
-          <input
+          <TextField
+            label="Email"
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
           />
-        </label>
-        <label>
-          Password:
-          <input
+          <TextField
+            label="Password"
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
           />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+          <Button type="submit" color="info" variant="contained">
+            Submit
+          </Button>
+        </Box>
+        <Stack direction="row" spacing={2}>
+          <GithubButton />
+          <GoogleButton />
+          <MicrosoftButton />
+        </Stack>
+      </ThemeProvider>
+    </Box>
   );
 }

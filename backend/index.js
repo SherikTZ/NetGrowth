@@ -17,6 +17,8 @@ import factRouter from "./routes/facts.js";
 import connectionsFactsRouter from "./routes/connectionsFacts.js";
 import githubRouter from "./routes/github.js";
 import googleRouter from "./routes/google.js";
+import microsoftRouter from "./routes/microsoft.js";
+import reCaptchaRouter from "./routes/reCaptcha.js";
 
 const app = express();
 
@@ -41,6 +43,8 @@ app.use("/", factRouter);
 app.use("/", connectionsFactsRouter);
 app.use("/", githubRouter);
 app.use("/", googleRouter);
+app.use("/", microsoftRouter);
+app.use("/", reCaptchaRouter);
 
 const dbURI =
   process.env.NODE_ENV === "test"

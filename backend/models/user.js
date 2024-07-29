@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
   },
   authProvider: {
     type: String,
-    enum: ["local", "github", "google", "linkedin"],
+    enum: ["local", "github", "google", "microsoft"],
     required: true,
     default: "local",
   },
